@@ -343,6 +343,8 @@ namespace SimpleNamedPipe {
             // Handle write completion
             if (ov == &m_write_overlapped[index]) {
                 handle_write_completion(index, bytes_transferred);
+                // A write completion does not retire the outstanding read.
+                continue;
             } else
             // Handle read completion
             if (ov == &m_read_overlapped[index] && bytes_transferred > 0) {

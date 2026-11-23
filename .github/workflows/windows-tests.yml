@@ -24,7 +24,7 @@ jobs:
           -DSIMPLE_NAMED_PIPE_BUILD_EXAMPLES=OFF
 
       - name: Build
-        run: cmake --build build-${{ matrix.static }} --config Release --target client_server_test
+        run: cmake --build build-${{ matrix.static }} --config Release --target client_server_test legacy_peer_test
 
       - name: Run client-server test
         shell: pwsh
@@ -34,3 +34,14 @@ jobs:
             $exe = "build-${{ matrix.static }}\client_server_test.exe"
           }
           & $exe
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Run legacy peer read-ownership regression
+        shell: pwsh
+        run: |
+          $exe = "build-${{ matrix.static }}\Release\legacy_peer_test.exe"
+          if (!(Test-Path $exe)) {
+            $exe = "build-${{ matrix.static }}\legacy_peer_test.exe"
+          }
+          & $exe
+          exit $LASTEXITCODE

@@ -48,6 +48,8 @@ if(SIMPLE_NAMED_PIPE_BUILD_EXAMPLES)
 endif()
 
 if(SIMPLE_NAMED_PIPE_BUILD_TESTS AND WIN32)
+    add_executable(legacy_peer_test tests/legacy_peer_test.cpp)
+    target_link_libraries(legacy_peer_test PRIVATE SimpleNamedPipe)
     add_executable(client_server_test
         tests/client_server_test.cpp
     )
